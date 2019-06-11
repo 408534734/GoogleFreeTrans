@@ -1,3 +1,4 @@
+# encoding: utf-8 
 from GoogleFreeTrans import Translator
 from pytest import raises
 
