@@ -4,7 +4,9 @@ GoogleFreeTrans: Free Google translate API for Python
 
 |GitHub license| |travis status| |version|
 
-python 3.4+
+python 3.4+ 
+
+python 2.7+
 
 ----------
 Quickstart
@@ -19,6 +21,11 @@ You can install it from PyPI:
 or manual install:
 
 .. sourcecode:: bash
+  
+   $ pip install pytest
+   $ pip install flake8
+   $ pip install coverage
+   $ pip install PyExecJS
 
    $ python setup.py test
    $ python setup.py install
