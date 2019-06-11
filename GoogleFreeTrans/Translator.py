@@ -111,10 +111,13 @@ class translator():
         self.__next_up_time = time.time() + self.updata_time
 
     def __get_res(self, data):
-        res = requests.post(self.url,
-                            headers=self.headers,
-                            data=data,
-                            params=self.params,
-                            timeout=6)
-        res.raise_for_status()
+        try:
+            res = requests.post(self.url,
+                                headers=self.headers,
+                                data=data,
+                                params=self.params,
+                                timeout=6)
+        except requests.exceptions.Timeout:
+            print "Timeout occurred"
+            res.raise_for_status()
         return res
