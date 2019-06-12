@@ -101,6 +101,10 @@ class translator():
         data = {'q': text}
         self.params['tk'] = self.__TK.get_tk(text)
         res = self.__get_res(data)
+
+        if '' == res:
+            return res
+
         ret_list = json.loads(res.text)
         if multi:
             return ret_list
@@ -111,13 +115,16 @@ class translator():
         self.__next_up_time = time.time() + self.updata_time
 
     def __get_res(self, data):
+        res = ''
         try:
             res = requests.post(self.url,
                                 headers=self.headers,
                                 data=data,
                                 params=self.params,
                                 timeout=6)
+            res.raise_for_status()
         except requests.exceptions.Timeout:
             print "Timeout occurred"
-            res.raise_for_status()
+            
         return res
+
