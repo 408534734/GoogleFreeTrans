@@ -125,6 +125,9 @@ class translator():
             res.raise_for_status()
         except requests.exceptions.Timeout:
             print "Timeout occurred"
-            
+        except requests.exceptions.HTTPError:
+            print "Http Error occurred"
+        except requests.exceptions:
+            print "Other Error occurred"
         return res
 
