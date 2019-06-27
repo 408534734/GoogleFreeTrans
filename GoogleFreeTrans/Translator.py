@@ -137,7 +137,7 @@ class translator():
                                 params=self.params,
                                 timeout=6)
             res.raise_for_status()
-        except Exception as e:
+        except Exception as ex:
             print('class translator __get_res  [-]ERROR: ' + str(ex))
             res = ''
 
