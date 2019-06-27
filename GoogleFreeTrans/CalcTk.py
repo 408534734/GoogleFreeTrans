@@ -33,4 +33,9 @@ class CalcTk():
     """)
 
     def get_tk(self, text):
-        return self.ctx.call('tk', text, self.tkk)
+        try:
+            return self.ctx.call('tk', text, self.tkk)
+        except Exception as ex:
+            print('class CalcTk function get_tk [-]ERROR: ' + str(ex))
+        
+        return 0.0

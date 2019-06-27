@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import requests, execjs, json, sys
 from GoogleFreeTrans.CalcTk import CalcTk
 import time
@@ -100,21 +101,35 @@ class translator():
             self.__updata_tk()
         data = {'q': text}
         self.params['tk'] = self.__TK.get_tk(text)
-        res = self.__get_res(data)
+
+        for count in range(0,3):#设置最大请求次数为三次，减少因为超时的失败情况
+            res = self.__get_res(data)
+            if '' == res:
+                continue
+            else:
+                break
 
         if '' == res:
             return res
 
-        ret_list = json.loads(res.text)
+        retrunString = ''
+        for item in res.json()[0]:
+            retrunString = retrunString + item[0]#返回的json中按照句子断句翻译，需要进行拼接
+
         if multi:
-            return ret_list
-        return ret_list[0][0][0]
+            return res.json()[0]
+
+        return retrunString
+        #ret_list = json.loads(res.text)
+        #if multi:
+            #return ret_list
+        #return ret_list[0][0][0]
 
     def __updata_tk(self):
         self.__TK = CalcTk()
         self.__next_up_time = time.time() + self.updata_time
 
-    def __get_res(self, data):
+    def __get_res(self, data):  
         try:
             res = requests.post(self.url,
                                 headers=self.headers,
@@ -122,14 +137,8 @@ class translator():
                                 params=self.params,
                                 timeout=6)
             res.raise_for_status()
-        except requests.exceptions.Timeout:
-            print "Timeout occurred"
+        except Exception as e:
+            print('class translator __get_res  [-]ERROR: ' + str(ex))
             res = ''
-        except requests.exceptions.HTTPError:
-            print "Http Error occurred"
-            res = ''
-        except requests.exceptions:
-            print "Other Error occurred"
-            res = ''
-        return res
 
+        return res
